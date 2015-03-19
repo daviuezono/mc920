@@ -1,5 +1,4 @@
-# mc920
-Digital Image Processing &amp; Computer Graphics
+# MC920 - Digital Image Processing &amp; Computer Graphics
 
 Classes:
 * Random PGM generation
