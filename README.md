@@ -2,5 +2,5 @@
 Digital Image Processing &amp; Computer Graphics
 
 Classes:
-1. Random PGM generation
-2. Linear effects using PGM
+* Random PGM generation
+* Linear effects using PGM
