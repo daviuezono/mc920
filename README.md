@@ -1,4 +1,4 @@
-# MC920 - Digital Image Processing &amp; Computer Graphics
+# MC920 - DIP &amp; CG
 
 Classes:
 * Random PGM generation
