@@ -54,7 +54,7 @@ if image.readline() == "P2\n":
         for y in range(j-mw, j+mw+1):
           mask_of_pixels.append(matrix[x][y])
       mask_of_pixels.sort()
-      median = int(mask*mask/2)
+      median = int(len(mask_of_pixels)/2)
       matrix_out[i][j] = mask_of_pixels[median]
 
   # creating the final image through the output matrix

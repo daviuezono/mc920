@@ -10,80 +10,59 @@ name = raw_input("Please select one of these images: coins, columns or dragon.\n
 while name not in ["coins", "columns", "dragon"]:
   name = raw_input("ERROR! Please select one of these images: coins, columns or dragon.\n")
 
-image = open(name + "_with_salt_pepper.pgm", "r")
+image = open(name + "_adding_salt_pepper.pgm", "r")
 if image.readline() == "P2\n":
 
-  image.readline() # ignore comment line from PGM format
+  # ignore comment line from PGM format
+  image.readline()
 
   size_string = image.readline()
   size = size_string.split()
-  n_lines = int(size[0])
-  n_columns = int(size[1])
+  n_columns = int(size[0])
+  n_lines = int(size[1])
 
   depth_string = image.readline()
   depth = depth_string.split()
   depth = int (depth[0])
 
-  # reading the image into a matrix
+  # reading the image into a pixel list
   pixel_list = []
   lines = image.readlines()
-  for i in range(0, len(lines)):
+  for i in range(len(lines)):
     values_in_this_line = lines[i].split()
     for pixel in values_in_this_line:
       pixel_list.append(int(pixel))
   image.close()
 
-  matrix = []
-  for i in range(0, n_lines):
-    pixel_line = []
-    for j in range(0, n_columns):
-      pixel_line.append(pixel_list[i*j+j])
-    matrix.append(pixel_line)
+  pixel_list_out = pixel_list
+  mw = int(mask/2)
+
+  for i in range(n_lines):
+    for j in range(n_columns):
+
+      mask_of_pixels = []
+      count = 0
+      
+      for x in range (i - mw, i + mw + 1):
+        for y in range (j - mw, j + mw + 1):
+          if (x >= 0 and x < n_lines and y >= 0 and y < n_columns):
+            count = count + 1
+            mask_of_pixels.append(pixel_list[x*n_columns + y])
+
+      print count
+      mask_of_pixels.sort()
+      median = int(len(mask_of_pixels)/2)
+      pixel_list_out[i*n_columns + j] = mask_of_pixels[median]
 
   # creating the final image
-  clean_image = open(name + "_without_salt_pepper.pgm", "w")
+  clean_image = open(name + "_removing_salt_pepper.pgm", "w")
   clean_image.write("P2\n")
   clean_image.write("# created by Davi K. Uezono - RA 097464\n")
   clean_image.write(size_string)
   clean_image.write(depth_string)
 
-  mw = int(mask/2)
-
-  for i in range(0, n_lines):
-    for j in range(0, n_columns):
-      #print matrix[i][j]
-      #mask_left = max(0, j-mw)
-      #print mask_left
-      #mask_right = min(n_lines - 2, j+mw)
-      #print mask_right
-      #mask_up = max(0, i-mw)
-      #print mask_up
-      #mask_down = min(n_columns - 2, i+mw)
-      #print mask_down
-      mask_of_pixels = []
-      
-      count = 0
-      
-      #for x in range(mask_up, mask_down + 1):
-        #for y in range(mask_left, mask_right + 1):
-          #count = count + 1
-          #mask_of_pixels.append(matrix[x][y])
-          #print count
-          
-      for x in range(i-mw, i+mw+1):
-        for y in range(j-mw, j+mw+1):
-          if (x > 0 and x < n_lines and y > 0 and y < n_columns):
-            count = count + 1
-            mask_of_pixels.append(matrix[x][y])
-      #print mask_of_pixels
-      #mask_of_pixels.sort()
-      #print mask_of_pixels
-      #print "ABCD"
-      #median = mask_of_pixels[count/2]
-      #clean_image.write(str(median) + " ")
-      mean = sum(mask_of_pixels)/len(mask_of_pixels)
-      clean_image.write(str(mean) + " ")
-
+  for i in range(n_lines):
+    for j in range(n_columns):
+      clean_image.write(str(pixel_list_out[i*n_columns + j]) + " ")
     clean_image.write("\n")
-
   clean_image.close()

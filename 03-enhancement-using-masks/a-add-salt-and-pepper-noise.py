@@ -12,30 +12,35 @@ while name not in ["coins", "columns", "dragon"]:
 
 image = open(name + ".pgm", "r")
 if image.readline() == "P2\n":
-  salt_and_pepper = open(name + "_with_salt_pepper.pgm", "w")
-  salt_and_pepper.write("P2\n")
-
-  image.readline() # ignore comment line from PGM format
-  salt_and_pepper.write("# created by Davi K. Uezono - RA 097464\n")
+  # ignore comment line from PGM format
+  image.readline()
 
   size_string = image.readline()
-  salt_and_pepper.write(size_string)
   size = size_string.split()
-  n_pixels = int(size[0]) * int(size[1]) # number of pixels in image
+  
+  # number of pixels in image
+  n_pixels = int (size[0]) * int (size[1])
   # number of pixels in image to apply salt and pepper
   sp_pixels = int (n_pixels * percentage / 100)
   
   depth_string = image.readline()
-  salt_and_pepper.write(depth_string)
   depth = depth_string.split()
   depth = int (depth[0])
+  
+  salt_and_pepper.write("# created by Davi K. Uezono - RA 097464\n")
+  salt_and_pepper = open(name + "_adding_salt_pepper.pgm", "w")
+  salt_and_pepper.write("P2\n")
+  salt_and_pepper.write(size_string)
+  salt_and_pepper.write(depth_string)
 
-  counter = 0
+
+
+  #counter = 0
   lines = image.readlines()
   for i in range(0, len(lines)):
     values_in_this_line = lines[i].split()
     for pixel in values_in_this_line:
-      counter = counter + 1
+      #counter = counter + 1
       max_prob = int (100 / percentage) - 1
       if(not bool(randint(0,max_prob)) and bool(sp_pixels > 0)):
         pixel_out = str(depth * randint(0,1))
