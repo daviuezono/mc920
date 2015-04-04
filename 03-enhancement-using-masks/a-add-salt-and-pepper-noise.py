@@ -10,7 +10,7 @@ name = raw_input("Please select one of these images: coins, columns or dragon.\n
 while name not in ["coins", "columns", "dragon"]:
   name = raw_input("ERROR! Please select one of these images: coins, columns or dragon.\n")
 
-image = open(name + "_.pgm", "r")
+image = open(name + ".pgm", "r")
 if image.readline() == "P2\n":
   salt_and_pepper = open(name + "_with_salt_pepper.pgm", "w")
   salt_and_pepper.write("P2\n")
@@ -22,7 +22,7 @@ if image.readline() == "P2\n":
   salt_and_pepper.write(size_string)
   size = size_string.split()
   n_pixels = int(size[0]) * int(size[1]) # number of pixels in image
-  # number of pixels in image to apply salt and pepper (around 20%)
+  # number of pixels in image to apply salt and pepper
   sp_pixels = int (n_pixels * percentage / 100)
   
   depth_string = image.readline()
