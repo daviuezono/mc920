@@ -30,6 +30,7 @@ void keyOperations(void) {
 }
 
 void renderPrimitives2D(void) {
+  /*
   glColor3f(0.0f, 0.0f, 1.0f);
   glBegin(GL_QUADS);
   glVertex3f(-1.0f, -1.0f, 0.0f);
@@ -37,23 +38,26 @@ void renderPrimitives2D(void) {
   glVertex3f(1.0f, 1.0f, 0.0f);
   glVertex3f(1.0f, -1.0f, 0.0f);
   glEnd();
+  */
 
   glColor3f(1.0f, 0.0f, 0.0f);
   glPointSize(20.0f);  
-  glBegin(GL_POINTS); // Start drawing a point primitive  
+  glBegin(GL_QUAD_STRIP); // Start drawing a point primitive  
   glVertex3f(-1.0f, -1.0f, 0.0f); // The bottom left corner  
   glVertex3f(-1.0f, 1.0f, 0.0f); // The top left corner  
   glVertex3f(1.0f, 1.0f, 0.0f); // The top right corner  
   glVertex3f(1.0f, -1.0f, 0.0f); // The bottom right corner  
   glEnd();  
 
+  /*
   glColor3f(0.0f, 1.0f, 0.0f);
   glBegin(GL_LINE_LOOP); // Start drawing a line primitive  
   glVertex3f(-1.0f, -1.0f, 0.0f); // The bottom left corner  
   glVertex3f(-1.0f, 1.0f, 0.0f); // The top left corner  
   glVertex3f(1.0f, 1.0f, 0.0f); // The top right corner  
   glVertex3f(1.0f, -1.0f, 0.0f); // The bottom right corner  
-  glEnd();  
+  glEnd();
+  */
 }
 
 void renderPrimitives3D(void) {
@@ -99,8 +103,8 @@ void display(void) {
   //glTranslatef(0.0f, yLocation, 0.0f);
   glRotatef(yRotationAngle, 0.0f, 1.0f, 0.0f);
 
-  //renderPrimitives2D();
-  renderPrimitives3D();
+  renderPrimitives2D();
+  //renderPrimitives3D();
   glFlush();
 
   if (movingUp) {
