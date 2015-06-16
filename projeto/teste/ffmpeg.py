@@ -34,17 +34,22 @@ if length > 30:
     print "ERROR: your movie has more than 30 seconds.\n"
     exit(0)
 
-# build and execute the command
+# re-scale the video size to fit 640px of width.
 if original_file:
-  cmd_img = "ffmpeg -loglevel quiet -i " + name + " -r 25 -f image2 output-%3d.pgm"
+  cmd_resize = "ffmpeg -loglevel quiet -i " + name + " -vf scale=640:-1 output.mp4"
 else:
-  cmd_img = "ffmpeg -loglevel quiet -i intermediate.mp4 -r 25 -f image2 output-%3d.pgm"
+  cmd_resize = "ffmpeg -loglevel quiet -i intermediate.mp4 -vf scale=640:-1 output.mp4"
+system(cmd_resize)
+
+# build and execute the command
+cmd_img = "ffmpeg -loglevel quiet -i output.mp4 -r 30 -f image2 output-%3d.jpg"
 system(cmd_img)
 
 if not original_file:
   system("rm intermediate.mp4")
+system("rm output.mp4")
 
-cmd_n_images = "ls -l | grep '.pgm' | wc -l"
+cmd_n_images = "ls -l | grep '.jpg' | wc -l"
 n_images = subprocess.check_output(cmd_n_images, shell=True)
 number = str(n_images.strip())
 
